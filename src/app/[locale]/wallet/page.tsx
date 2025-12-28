@@ -3,7 +3,6 @@ import {ZeldWalletWrapper} from '@/components/wallet';
 import {getTranslations} from 'next-intl/server';
 import {locales, type Locale} from '@/lib/i18n/routing';
 import {notFound} from 'next/navigation';
-import type {LocaleKey} from 'zeldwallet';
 
 type Props = {
   params: Promise<{locale: string}>;
@@ -29,23 +28,12 @@ export async function generateMetadata({params}: Props) {
   };
 }
 
-// Map site locales to zeldwallet supported locales
-function getWalletLocale(siteLocale: string): LocaleKey {
-  // ZeldWallet supports 'en' and 'fr' for now
-  const supportedLocales: LocaleKey[] = ['en', 'fr'];
-  if (supportedLocales.includes(siteLocale as LocaleKey)) {
-    return siteLocale as LocaleKey;
-  }
-  return 'en';
-}
-
 export default async function WalletPage({params}: Props) {
   const {locale: rawLocale} = await params;
   const locale = rawLocale as Locale;
   if (!locales.includes(locale)) notFound();
 
   const t = await getTranslations({locale, namespace: 'common'});
-  const walletLocale = getWalletLocale(locale);
 
   return (
     <div className="w-full">
@@ -63,7 +51,7 @@ export default async function WalletPage({params}: Props) {
       <Section className="pt-12 pb-12">
         {/* Wallet Card */}
         <div className="max-w-[720px] mx-auto">
-          <ZeldWalletWrapper lang={walletLocale} />
+          <ZeldWalletWrapper key={locale} locale={locale} />
         </div>
 
         

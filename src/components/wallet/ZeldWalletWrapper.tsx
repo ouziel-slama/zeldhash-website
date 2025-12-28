@@ -1,11 +1,9 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import type {LocaleKey} from 'zeldwallet';
-
-interface ZeldWalletWrapperProps {
-  lang?: LocaleKey;
-}
+import {useLocale} from 'next-intl';
+import {languages, type LocaleKey} from 'zeldwallet';
+import type {Locale} from '@/lib/i18n/routing';
 
 const WASM_BASE =
   typeof window !== 'undefined' && window.location?.origin
@@ -33,9 +31,35 @@ const ZeldWalletCardDynamic = dynamic(
   }
 );
 
-export function ZeldWalletWrapper({lang = 'en'}: ZeldWalletWrapperProps) {
+// Map site locale to the closest zeldwallet supported locale
+function getWalletLocale(siteLocale: string): LocaleKey {
+  const normalized = siteLocale.trim().toLowerCase();
+  const codes = languages.map(l => l.code);
+
+  // Exact (case-insensitive)
+  const exact = codes.find(code => code.toLowerCase() === normalized);
+  if (exact) return exact as LocaleKey;
+
+  // Match by base language (e.g., fr-FR -> fr)
+  const base = normalized.split('-')[0];
+  const baseMatch = codes.find(code => code.split('-')[0].toLowerCase() === base);
+  if (baseMatch) return baseMatch as LocaleKey;
+
+  return 'en';
+}
+
+type Props = {
+  locale?: Locale;
+};
+
+export function ZeldWalletWrapper({locale}: Props) {
+  const clientLocale = useLocale();
+  const siteLocale = locale ?? clientLocale;
+  const lang = getWalletLocale(siteLocale);
+
   return (
     <ZeldWalletCardDynamic
+      key={lang}
       lang={lang}
       network="mainnet"
       variant="dark"
