@@ -1,13 +1,17 @@
 import { Section, SectionTitle } from "@/components/ui";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 
 const RARE_TRANSACTIONS = [
-  { zeros: 12, txid: "000000000000c469d884453cf29b9bc4995e93980fb7fa86d3b8abe66394e843", reward: "67,108,864" },
-  { zeros: 8, txid: "00000000f20055df2ea02de851a47e97256ec06f0d196c6d62248648b6c981f2", reward: "4,096" },
-  { zeros: 8, txid: "0000000089c1d40e77a9a601adfb263490ad717bc418ebed7f895d9eb41cdd84", reward: "4,096" },
-  { zeros: 7, txid: "0000000bb463dde7fd2c72d673c9a393d8962f0b0414ae32bf0aec23e5522a4e", reward: "4,096" },
-  { zeros: 6, txid: "000000230a733b1deb2ca7dbc86f315682f7dff4ca64731ed0afe7ac244f2283", reward: "4,096" },
+  { zeros: 12, txid: "000000000000c469d884453cf29b9bc4995e93980fb7fa86d3b8abe66394e843", reward: 67108864 },
+  { zeros: 8, txid: "00000000f20055df2ea02de851a47e97256ec06f0d196c6d62248648b6c981f2", reward: 4096 },
+  { zeros: 8, txid: "0000000089c1d40e77a9a601adfb263490ad717bc418ebed7f895d9eb41cdd84", reward: 4096 },
+  { zeros: 7, txid: "0000000bb463dde7fd2c72d673c9a393d8962f0b0414ae32bf0aec23e5522a4e", reward: 4096 },
+  { zeros: 6, txid: "000000230a733b1deb2ca7dbc86f315682f7dff4ca64731ed0afe7ac244f2283", reward: 4096 },
 ] as const;
+
+function formatNumber(value: number, locale: string) {
+  return new Intl.NumberFormat(locale).format(value);
+}
 
 function formatTxid(txid: string, zeros: number) {
   const zerosPart = txid.slice(0, zeros);
@@ -17,6 +21,7 @@ function formatTxid(txid: string, zeros: number) {
 
 export async function HallOfFameSection() {
   const t = await getTranslations("home");
+  const locale = await getLocale();
 
   return (
     <Section className="bg-black/25">
@@ -71,7 +76,7 @@ export async function HallOfFameSection() {
               </div>
               <div className="text-end">
                 <div className="text-base font-medium text-gold-400 font-mono">
-                  {tx.reward}
+                  {formatNumber(tx.reward, locale)}
                 </div>
                 <div className="text-[11px] text-dark-600 uppercase tracking-wider">
                   {t("hallOfFame.tokenLabel")}

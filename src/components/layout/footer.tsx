@@ -15,6 +15,7 @@ export async function Footer() {
 
   const FOOTER_LINKS: FooterLink[] = [
     { href: "/wallet", labelKey: "nav.wallet" },
+    { href: "/explorer", labelKey: "nav.explorer" },
     { href: "/faq", labelKey: "nav.faq" },
     { href: `/whitepaper/zeldhash-whitepaper-${locale}.pdf`, labelKey: "nav.whitepaper", external: true, icon: "pdf" },
     { href: "https://github.com/ouziel-slama/zeldhash/", labelKey: "nav.github", external: true, icon: "github" },

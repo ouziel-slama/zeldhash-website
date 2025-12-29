@@ -1,13 +1,25 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
+
+function formatCompact(value: number, locale: string) {
+  return new Intl.NumberFormat(locale, {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(value);
+}
+
+function formatNumber(value: number, locale: string) {
+  return new Intl.NumberFormat(locale).format(value);
+}
 
 export async function StatsSection() {
   const t = await getTranslations("home");
+  const locale = await getLocale();
 
   const STATS = [
-    { value: "449,228", label: t("stats.rareHashesFound") },
-    { value: "102.8M", label: t("stats.zeldInCirculation") },
+    { value: formatNumber(449228, locale), label: t("stats.rareHashesFound") },
+    { value: formatCompact(102800000, locale), label: t("stats.zeldInCirculation") },
     { value: "12", label: t("stats.recordZeros") },
-    { value: "78.3M", label: t("stats.utxosTracked") },
+    { value: formatCompact(78300000, locale), label: t("stats.utxosTracked") },
   ] as const;
 
   return (

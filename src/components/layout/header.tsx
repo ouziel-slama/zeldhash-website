@@ -13,6 +13,7 @@ type NavLink = {
 
 const NAV_LINKS: NavLink[] = [
   { href: "/wallet", labelKey: "nav.wallet" },
+  { href: "/explorer", labelKey: "nav.explorer" },
   { href: "/faq", labelKey: "nav.faq" },
 ] as const;
 
