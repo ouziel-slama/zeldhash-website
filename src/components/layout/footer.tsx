@@ -1,12 +1,13 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/lib/i18n/routing";
-import { PdfIcon, GithubIcon, WalletIcon, ExplorerIcon, ZeldAIIcon } from "@/components/ui";
+import { PdfIcon, GithubIcon, XIcon, WalletIcon, ExplorerIcon, ZeldAIIcon } from "@/components/ui";
 
 type FooterLink = {
   href: string;
-  labelKey: string;
+  labelKey?: string;
+  label?: string;
   external?: boolean;
-  icon?: "wallet" | "explorer" | "zeldai" | "pdf" | "github";
+  icon?: "wallet" | "explorer" | "zeldai" | "pdf" | "github" | "x";
 };
 
 export async function Footer() {
@@ -18,6 +19,7 @@ export async function Footer() {
     { href: "/explorer", labelKey: "nav.explorer", icon: "explorer" },
     { href: "/faq", labelKey: "nav.zeldai", icon: "zeldai" },
     { href: `/whitepaper/zeldhash-whitepaper-${locale}.pdf`, labelKey: "nav.whitepaper", external: true, icon: "pdf" },
+    { href: "https://x.com/ZeldHash", label: "X", external: true, icon: "x" },
     { href: "https://github.com/ouziel-slama/zeldhash/", labelKey: "nav.github", external: true, icon: "github" },
   ];
 
@@ -31,6 +33,8 @@ export async function Footer() {
         return <ZeldAIIcon className="w-4 h-4 text-gold-400" />;
       case "pdf":
         return <PdfIcon className="w-5 h-5" />;
+      case "x":
+        return <XIcon className="w-5 h-5" />;
       case "github":
         return <GithubIcon className="w-5 h-5" />;
       default:
@@ -51,12 +55,12 @@ export async function Footer() {
               className="text-dark-500 hover:text-gold-400 transition-colors flex items-center gap-1.5"
             >
               {renderIcon(link.icon)}
-              {t(link.labelKey)}
+              {link.label ?? t(link.labelKey!)}
             </a>
           ) : (
             <Link key={link.href} href={link.href} className="text-dark-500 hover:text-gold-400 transition-colors flex items-center gap-1.5">
               {renderIcon(link.icon)}
-              {t(link.labelKey)}
+              {link.label ?? t(link.labelKey!)}
             </Link>
           )
         )}

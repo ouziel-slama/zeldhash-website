@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Logo, PdfIcon, GithubIcon, WalletIcon, ExplorerIcon, ZeldAIIcon } from "@/components/ui";
+import { Logo, PdfIcon, GithubIcon, XIcon, WalletIcon, ExplorerIcon, ZeldAIIcon } from "@/components/ui";
 import { Link, locales, usePathname, useRouter, type Locale } from "@/lib/i18n/routing";
 import { languages, getLanguageInfo } from "@/lib/i18n/languages";
 import { useTranslations, useLocale } from "next-intl";
@@ -82,6 +82,18 @@ export function Header() {
             <PdfIcon className="w-6 h-6" />
             <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs rounded bg-dark-800 text-gold-400 border border-gold-400/20 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               {t("nav.whitepaper")}
+            </span>
+          </a>
+          <a
+            href="https://x.com/ZeldHash"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative text-dark-200 hover:text-gold-400 transition-colors"
+            title="X"
+          >
+            <XIcon className="w-6 h-6" />
+            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 text-xs rounded bg-dark-800 text-gold-400 border border-gold-400/20 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              X
             </span>
           </a>
           <a
@@ -187,6 +199,16 @@ export function Header() {
             >
               <PdfIcon className="w-5 h-5" />
               {t("nav.whitepaper")}
+            </a>
+            <a
+              href="https://x.com/ZeldHash"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-3 text-dark-200 hover:text-gold-400 transition-colors flex items-center gap-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <XIcon className="w-5 h-5" />
+              X
             </a>
             <a
               href="https://github.com/ouziel-slama/zeldhash/"

@@ -7,4 +7,5 @@ export { GithubIcon } from "./github-icon";
 export { WalletIcon } from "./wallet-icon";
 export { ExplorerIcon } from "./explorer-icon";
 export { ZeldAIIcon } from "./zeldai-icon";
+export { XIcon } from "./x-icon";
 
